@@ -1,0 +1,65 @@
+/* =========================================================
+   BOTONES Y ACCIONES: estilos reutilizables de enlaces y botones
+   ========================================================= */
+.hero-actions,
+.modal-actions,
+.footer-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.hero-actions {
+  margin-top: 2rem;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 3.3rem;
+  padding: 0.85rem 1.5rem;
+  border-radius: 999px;
+  font-weight: 800;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+}
+
+.btn:hover,
+.btn:focus-visible {
+  transform: translateY(-2px);
+  box-shadow: 0 16px 30px rgba(44, 44, 44, 0.14);
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--gold) 0%, #ead0a8 100%);
+  color: #221c17;
+}
+
+.btn-outline-light,
+.btn-outline-dark {
+  border: 1px solid currentColor;
+}
+
+.btn-outline-light {
+  color: #fffdfb;
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.btn-outline-light:hover,
+.btn-outline-light:focus-visible {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.btn-outline-dark {
+  color: var(--text);
+}
+
+.btn-whatsapp {
+  background: linear-gradient(135deg, #25d366 0%, #179b4a 100%);
+  color: #fff;
+}
+
+.btn-danger {
+  background: linear-gradient(135deg, #e66b6b 0%, #c24848 100%);
+  color: #fff;
+}

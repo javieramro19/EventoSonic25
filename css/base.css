@@ -1,0 +1,59 @@
+/* =========================================================
+   RESET BASE: reglas generales para toda la pagina
+   ========================================================= */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: "Nunito", sans-serif;
+  color: var(--text);
+  background:
+    radial-gradient(circle at top left, rgba(212, 175, 122, 0.18), transparent 30%),
+    linear-gradient(180deg, #fffaf6 0%, var(--bg) 100%);
+  line-height: 1.6;
+}
+
+body.menu-open {
+  overflow: hidden;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+button {
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+/* CONTENEDOR: ancho maximo reutilizable en todas las secciones */
+.container {
+  width: var(--container);
+  margin: 0 auto;
+}

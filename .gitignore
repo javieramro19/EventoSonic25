@@ -1,0 +1,9 @@
+data/*.sqlite
+data/*.sqlite-*
+data/*.sql-wal
+data/*.sql-shm
+data/secrets.php
+node_modules/
+*.zip
+.env
+.env.*

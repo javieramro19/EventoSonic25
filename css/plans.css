@@ -1,0 +1,93 @@
+/* =========================================================
+   PLANES: tarjetas de precios y listas de caracteristicas
+   ========================================================= */
+.plans-grid {
+  display: grid;
+  gap: 1.35rem;
+}
+
+.plan-card {
+  position: relative;
+  border-radius: 28px;
+  padding: 2rem 1.5rem;
+  display: grid;
+  gap: 0.95rem;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.plan-card:hover {
+  transform: translateY(-8px);
+  box-shadow: var(--shadow-strong);
+}
+
+.plan-card-featured {
+  border: 1px solid rgba(212, 175, 122, 0.58);
+  transform: translateY(-0.25rem);
+}
+
+.plan-badge {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: linear-gradient(135deg, var(--gold), #f1dcc0);
+  color: #241d17;
+  padding: 0.45rem 0.8rem;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 800;
+}
+
+.plan-icon {
+  width: 3.2rem;
+  height: 3.2rem;
+  border-radius: 1rem;
+  display: inline-grid;
+  place-items: center;
+  background: linear-gradient(135deg, rgba(212, 175, 122, 0.22), rgba(245, 230, 218, 0.92));
+  color: var(--gold-deep);
+  font-size: 0.95rem;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+}
+
+.plan-price {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--gold-deep);
+}
+
+.plan-description {
+  color: var(--text-soft);
+}
+
+.plan-features,
+.include-list,
+.summary-extras ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.plan-features li,
+.include-list li,
+.summary-extras li {
+  position: relative;
+  padding-left: 1.5rem;
+  color: var(--text-soft);
+}
+
+.plan-features li + li,
+.include-list li + li,
+.summary-extras li + li {
+  margin-top: 0.65rem;
+}
+
+.plan-features li::before,
+.include-list li::before,
+.summary-extras li::before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  color: var(--gold-deep);
+  font-weight: 800;
+}

@@ -1,0 +1,13 @@
+<Files "_bootstrap.php">
+  Require all denied
+</Files>
+
+<Files "secrets.php">
+  Require all denied
+</Files>
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteCond %{REQUEST_FILENAME}.php -f
+  RewriteRule ^([A-Za-z0-9_-]+)$ $1.php [L,QSA]
+</IfModule>

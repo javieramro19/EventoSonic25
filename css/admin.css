@@ -1,0 +1,280 @@
+/* =========================================================
+   PANEL ADMIN: login, estadisticas, lista y detalle de solicitudes
+   ========================================================= */
+.panel-nav-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.panel-hero .container {
+  max-width: 56rem;
+}
+
+.admin-login-card {
+  max-width: 34rem;
+  margin: 0 auto;
+}
+
+.admin-panel {
+  display: grid;
+  gap: 1.35rem;
+}
+
+.admin-toolbar {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.admin-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: end;
+}
+
+.admin-filter {
+  min-width: min(16rem, 100%);
+}
+
+.admin-stats {
+  display: grid;
+  gap: 1rem;
+}
+
+.admin-stat {
+  border-radius: 24px;
+  padding: 1.25rem;
+  background: rgba(255, 255, 255, 0.86);
+  border: 1px solid rgba(44, 44, 44, 0.07);
+  box-shadow: var(--shadow-soft);
+  display: grid;
+  gap: 0.25rem;
+}
+
+.admin-stat strong {
+  font-size: 2rem;
+  color: var(--gold-deep);
+}
+
+.admin-stat span {
+  color: var(--text-soft);
+  font-weight: 800;
+}
+
+.admin-workspace {
+  display: grid;
+  gap: 1.35rem;
+  align-items: start;
+}
+
+.request-list-card,
+.request-detail-card {
+  min-height: 24rem;
+}
+
+.admin-section-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.admin-section-heading h3 {
+  font-size: 1.45rem;
+}
+
+.admin-section-heading span {
+  color: var(--text-soft);
+  font-weight: 800;
+}
+
+.detail-heading-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.75rem;
+}
+
+.request-list {
+  display: grid;
+  gap: 0.8rem;
+}
+
+.request-row {
+  width: 100%;
+  text-align: left;
+  display: grid;
+  gap: 0.35rem;
+  padding: 1rem;
+  border: 1px solid transparent;
+  border-top-color: rgba(44, 44, 44, 0.08);
+  border-radius: 18px;
+  color: var(--text);
+  transition: background 0.25s ease, border-color 0.25s ease, color 0.25s ease, transform 0.25s ease;
+}
+
+.request-row:first-child {
+  border-top-color: transparent;
+}
+
+.request-row:hover,
+.request-row:focus-visible,
+.request-row.is-active {
+  color: var(--gold-deep);
+  background: rgba(255, 255, 255, 0.72);
+  border-color: rgba(187, 147, 93, 0.24);
+}
+
+.request-row:focus-visible {
+  outline: 3px solid rgba(187, 147, 93, 0.22);
+  outline-offset: 2px;
+}
+
+.request-row.status-aceptada {
+  background: rgba(37, 211, 102, 0.08);
+  border-color: rgba(37, 211, 102, 0.18);
+}
+
+.request-row.status-rechazada {
+  background: rgba(194, 72, 72, 0.08);
+  border-color: rgba(194, 72, 72, 0.18);
+}
+
+.request-row-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.8rem;
+}
+
+.request-row-header strong {
+  min-width: 0;
+}
+
+.request-row span {
+  color: var(--text-soft);
+}
+
+.request-row-preview {
+  font-size: 0.92rem;
+  overflow-wrap: anywhere;
+}
+
+.status-pill {
+  width: fit-content;
+  min-width: 6.25rem;
+  min-height: 2.35rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  border: 1px solid rgba(44, 44, 44, 0.08);
+  padding: 0.35rem 0.7rem;
+  background: var(--surface-soft);
+  color: var(--text);
+  font-weight: 900;
+  line-height: 1;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.status-pendiente {
+  border-color: rgba(187, 147, 93, 0.26);
+}
+
+.status-aceptada,
+.status-contactada {
+  border-color: rgba(37, 211, 102, 0.28);
+}
+
+.status-pill.status-aceptada,
+.status-pill.status-contactada {
+  background: rgba(37, 211, 102, 0.14);
+  color: #166534;
+}
+
+.status-rechazada {
+  border-color: rgba(194, 72, 72, 0.28);
+}
+
+.status-pill.status-rechazada {
+  background: rgba(194, 72, 72, 0.12);
+  color: #9f2424;
+}
+
+.request-detail {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.detail-block {
+  display: grid;
+  gap: 0.45rem;
+  padding-top: 0.8rem;
+  border-top: 1px solid rgba(44, 44, 44, 0.08);
+}
+
+.detail-block:first-child {
+  border-top: 0;
+  padding-top: 0;
+}
+
+.detail-block h4 {
+  margin: 0;
+  font-size: 0.9rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--gold-deep);
+}
+
+.detail-block p {
+  display: grid;
+  grid-template-columns: minmax(6.5rem, 0.45fr) minmax(0, 1fr);
+  gap: 0.75rem;
+  align-items: baseline;
+  margin: 0;
+  padding: 0.25rem 0;
+}
+
+.detail-block span {
+  color: var(--text-soft);
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.detail-block strong {
+  overflow-wrap: anywhere;
+  line-height: 1.25;
+}
+
+.admin-contact-actions,
+.admin-status-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+}
+
+.btn-status-accepted {
+  background: linear-gradient(135deg, #6ee7a1 0%, #25d366 100%);
+  color: #10351f;
+}
+
+.btn-status-rejected {
+  border-color: rgba(194, 72, 72, 0.5);
+  color: #9f2424;
+}
+
+.btn-status-rejected:hover,
+.btn-status-rejected:focus-visible {
+  background: rgba(194, 72, 72, 0.1);
+}
+
+.empty-state {
+  color: var(--text-soft);
+}

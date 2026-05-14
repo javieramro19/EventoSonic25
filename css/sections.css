@@ -1,0 +1,18 @@
+/* =========================================================
+   SECCIONES GENERALES: espaciado y encabezados comunes
+   ========================================================= */
+.section {
+  padding: clamp(3.2rem, 7vw, 5rem) 0;
+}
+
+.section-heading {
+  max-width: 42rem;
+  text-align: center;
+  margin: 0 auto 2rem;
+}
+
+.section-heading p:last-child,
+.section-intro {
+  margin-top: 1rem;
+  color: var(--text-soft);
+}

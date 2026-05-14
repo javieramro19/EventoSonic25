@@ -1,0 +1,128 @@
+/* =========================================================
+   FOOTER Y CONTACTO: datos, WhatsApp y redes
+   ========================================================= */
+.contact-grid {
+  display: grid;
+  gap: 0.9rem;
+}
+
+.site-footer {
+  background:
+    radial-gradient(circle at top, rgba(212, 175, 122, 0.12), transparent 35%),
+    linear-gradient(180deg, #2c2c2c 0%, #1d1d1d 100%);
+  color: #fef8f2;
+  padding: 2.2rem 0 1rem;
+}
+
+.site-footer .section-heading {
+  margin-bottom: 1.25rem;
+}
+
+.site-footer h2 {
+  font-size: clamp(1.8rem, 3.2vw, 2.45rem);
+}
+
+.section-heading-light .eyebrow,
+.section-heading-light p:last-child {
+  color: rgba(255, 248, 243, 0.8);
+}
+
+.contact-card {
+  position: relative;
+  min-height: 7.4rem;
+  overflow: hidden;
+  border-radius: 26px;
+  background: rgba(255, 255, 255, 0.06);
+  color: #fffaf6;
+  padding: 1rem;
+  display: grid;
+  align-content: end;
+  isolation: isolate;
+}
+
+.contact-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background-image: var(--contact-image);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+
+.contact-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(180deg, rgba(20, 18, 16, 0.12), rgba(20, 18, 16, 0.74)),
+    rgba(20, 18, 16, 0.16);
+}
+
+.contact-card-location {
+  --contact-image: url("../images/footer-map.webp");
+}
+
+.contact-card-phone {
+  --contact-image: url("../images/footer-phone.webp");
+}
+
+.contact-card-mail {
+  --contact-image: url("../images/footer-mail.webp");
+}
+
+.contact-card-phone::before,
+.contact-card-mail::before {
+  background-color: #ffffff;
+  background-size: min(72%, 13rem);
+}
+
+.contact-card-phone::before {
+  background-color: #000000;
+  background-size: auto 128%;
+  background-position: center;
+}
+
+.contact-card-mail::before {
+  background-size: auto 82%;
+}
+
+.contact-card p,
+.contact-card a {
+  color: rgba(255, 248, 243, 0.92);
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.45);
+}
+
+.contact-card h3 {
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.45);
+}
+
+
+.footer-actions {
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1rem;
+}
+
+.social-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem 1rem;
+}
+
+.social-links a {
+  color: rgba(255, 248, 243, 0.84);
+  font-weight: 700;
+}
+
+.btn-instagram {
+  background: linear-gradient(135deg, #f58529 0%, #dd2a7b 48%, #8134af 100%);
+  color: #fff;
+}
+
+.footer-copy {
+  margin-top: 1rem;
+  color: rgba(255, 248, 243, 0.66);
+}

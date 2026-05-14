@@ -1,0 +1,70 @@
+/* =========================================================
+   IMAGENES Y PLACEHOLDERS: marcos, carga y textos de reserva
+   ========================================================= */
+.media-frame {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+  background:
+    linear-gradient(135deg, rgba(245, 230, 218, 0.9), rgba(212, 175, 122, 0.35)),
+    linear-gradient(180deg, #f9eee4, #f4dfd0);
+  min-height: 16rem;
+}
+
+.media-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 0.4s ease, transform 0.5s ease;
+}
+
+/* MEDIA IMAGEN GALERIA: tamano de las imagenes del carrusel */
+.media-imagen-galeria {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.media-frame.is-loaded .media-image {
+  opacity: 1;
+}
+
+.media-frame:hover .media-image {
+  transform: scale(1.04);
+}
+
+.media-placeholder {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  gap: 0.45rem;
+  padding: 1.5rem;
+  text-align: center;
+  background:
+    radial-gradient(circle at top, rgba(255, 255, 255, 0.75), transparent 45%),
+    linear-gradient(135deg, rgba(245, 230, 218, 0.88), rgba(212, 175, 122, 0.38));
+  color: var(--text);
+  transition: opacity 0.35s ease;
+}
+
+.media-placeholder strong {
+  font-family: "Playfair Display", serif;
+  font-size: 1.35rem;
+}
+
+.media-placeholder span {
+  color: var(--text-soft);
+  max-width: 18rem;
+}
+
+.media-frame.is-loaded .media-placeholder {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.tall-frame {
+  min-height: 32rem;
+}

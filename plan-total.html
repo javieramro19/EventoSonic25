@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Reserva el Plan Total de EventoSonic para grandes celebraciones, bodas completas y eventos corporativos con servicio integral.">
+  <title>Plan Total | EventoSonic</title>
+  <link rel="icon" href="images/icons/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" href="images/icons/favicon-32x32.png" sizes="32x32">
+  <link rel="icon" type="image/png" href="images/icons/favicon-16x16.png" sizes="16x16">
+  <link rel="apple-touch-icon" href="images/icons/apple-touch-icon.png">
+  <link rel="manifest" href="site.webmanifest">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body data-page="plan">
+  <header class="site-header plan-header">
+    <nav class="navbar container" aria-label="Principal">
+      <a class="brand" href="https://javier.teconecto.es/index.html">Evento<span>Sonic</span></a>
+      <a class="back-link" href="https://javier.teconecto.es/index.html">&larr; Volver a inicio</a>
+    </nav>
+  </header>
+
+  <main class="plan-page" data-plan-page data-plan-name="Plan Total" data-plan-price="1500">
+    <section class="plan-hero">
+      <div class="container reveal">
+        <p class="eyebrow">Plan Total</p>
+        <h1>Una experiencia integral pensada para eventos grandes y sin límites</h1>
+        <p>Diseñamos una mesa a medida que puede combinar dulces, salados, bebidas y una puesta en escena completa del espacio. Coordinamos decoración, proveedores y cada detalle visual para que el evento transmita exactamente lo que imaginas. Es la propuesta más ambiciosa de EventoSonic para marcas, bodas amplias y celebraciones de gran formato.</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container plan-layout">
+        <div class="plan-main">
+          <div class="content-card reveal">
+            <p class="eyebrow">Qué incluye</p>
+            <h2>Un servicio completo con máxima personalización</h2>
+            <ul class="include-list">
+              <li>Personas ilimitadas</li>
+              <li>Mesa a medida según espacio y concepto</li>
+              <li>Dulces, salados y bebidas</li>
+              <li>Decoración completa del espacio</li>
+              <li>Coordinación con proveedores</li>
+              <li>Montaje y desmontaje integral</li>
+            </ul>
+          </div>
+
+          <section class="content-card reveal">
+            <p class="eyebrow">Consulta</p>
+            <h2>Personaliza y consulta tu mesa</h2>
+            <p class="section-intro">Rellena los detalles y te contactaremos por WhatsApp en menos de 24h para ultimar todos los detalles de tu evento.</p>
+
+            <form class="booking-form" data-booking-form novalidate>
+              <div class="form-grid">
+                <label class="field">
+                  <span>Nombre completo</span>
+                  <input type="text" name="nombre" required>
+                </label>
+                <label class="field">
+                  <span>Email</span>
+                  <input type="email" name="email" required>
+                </label>
+                <label class="field">
+                  <span>Teléfono / WhatsApp</span>
+                  <input type="tel" name="telefono" required>
+                  <small>Te contactaremos a este número</small>
+                </label>
+                <label class="field">
+                  <span>Tipo de evento</span>
+                  <select name="evento" required>
+                    <option value="">Selecciona una opción</option>
+                    <option>Boda</option>
+                    <option>Comunión</option>
+                    <option>Bautizo</option>
+                    <option>Cumpleaños infantil</option>
+                    <option>Cumpleaños adulto</option>
+                    <option>Evento corporativo</option>
+                    <option>Baby shower</option>
+                    <option>Otro</option>
+                  </select>
+                </label>
+                <label class="field">
+                  <span>Fecha del evento</span>
+                  <input type="date" name="fecha" required>
+                </label>
+                <label class="field">
+                  <span>Número de invitados</span>
+                  <input type="number" name="invitados" min="1" required>
+                </label>
+              </div>
+
+              <div class="extras-block">
+                <div class="block-heading">
+                  <h3>Añade extras a tu mesa</h3>
+                </div>
+                <div class="extras-grid">
+                  <label class="extra-card">
+                    <input type="checkbox" name="extras" value="Tarta personalizada" data-price="80">
+                    <span class="extra-title">Tarta personalizada <strong>(+80€)</strong></span>
+                    <span class="extra-description">Tarta decorada a juego con la temática</span>
+                  </label>
+                  <label class="extra-card">
+                    <input type="checkbox" name="extras" value="Photocall temático" data-price="120">
+                    <span class="extra-title">Photocall temático <strong>(+120€)</strong></span>
+                    <span class="extra-description">Marco decorativo para las fotos del evento</span>
+                  </label>
+                  <label class="extra-card">
+                    <input type="checkbox" name="extras" value="Iluminación especial" data-price="60">
+                    <span class="extra-title">Iluminación especial <strong>(+60€)</strong></span>
+                    <span class="extra-description">Luces LED y guirnaldas para ambientar</span>
+                  </label>
+                  <label class="extra-card">
+                    <input type="checkbox" name="extras" value="Servicio de camarero" data-price="150">
+                    <span class="extra-title">Servicio de camarero <strong>(+150€)</strong></span>
+                    <span class="extra-description">Personal de servicio durante el evento</span>
+                  </label>
+                  <label class="extra-card">
+                    <input type="checkbox" name="extras" value="Globos y decoración adicional" data-price="50">
+                    <span class="extra-title">Globos y decoración adicional <strong>(+50€)</strong></span>
+                    <span class="extra-description">Arcos y columnas de globos</span>
+                  </label>
+                  <label class="extra-card">
+                    <input type="checkbox" name="extras" value="Fotografía del evento" data-price="200">
+                    <span class="extra-title">Fotografía del evento <strong>(+200€)</strong></span>
+                    <span class="extra-description">Reportaje fotográfico profesional</span>
+                  </label>
+                </div>
+              </div>
+
+              <label class="field field-textarea">
+                <span>¿Quieres añadir algo más? Cuéntanos</span>
+                <textarea name="peticion" rows="6" placeholder="Escribe aquí cualquier extra personalizado, petición especial, temática que tienes en mente, colores preferidos, restricciones del lugar, o cualquier cosa que quieras que sepamos..."></textarea>
+              </label>
+
+              <div class="dietary-block">
+                <div class="block-heading">
+                  <h3>Preferencias dietéticas</h3>
+                </div>
+                <div class="dietary-options">
+                  <label><input type="checkbox" name="dietas" value="Sin gluten"> <span>Sin gluten</span></label>
+                  <label><input type="checkbox" name="dietas" value="Vegano"> <span>Vegano</span></label>
+                  <label><input type="checkbox" name="dietas" value="Sin lactosa"> <span>Sin lactosa</span></label>
+                  <label><input type="checkbox" name="dietas" value="Sin frutos secos"> <span>Sin frutos secos</span></label>
+                </div>
+              </div>
+
+              <p class="form-error" data-form-error aria-live="polite"></p>
+              <button class="btn btn-primary btn-submit" type="submit">Enviar solicitud de reserva</button>
+            </form>
+          </section>
+        </div>
+
+        <aside class="summary-card reveal" data-summary-card>
+          <p class="eyebrow">Resumen</p>
+          <h2>Precio en tiempo real</h2>
+          <div class="summary-line">
+            <span>Plan seleccionado</span>
+            <strong data-summary-plan>Plan Total</strong>
+          </div>
+          <div class="summary-line">
+            <span>Precio base</span>
+            <strong data-summary-base>1.500€</strong>
+          </div>
+          <div class="summary-extras">
+            <p>Extras añadidos</p>
+            <ul data-summary-extras>
+              <li>No has seleccionado extras todavía.</li>
+            </ul>
+          </div>
+          <div class="summary-total">
+            <span>TOTAL estimado</span>
+            <strong data-summary-total>1.500€</strong>
+          </div>
+          <p class="summary-note">Precio orientativo. El presupuesto final se confirmará tras hablar con nuestro equipo.</p>
+        </aside>
+      </div>
+    </section>
+  </main>
+
+  <div class="modal-overlay" data-success-modal hidden>
+    <div class="success-modal">
+      <h2>Solicitud enviada</h2>
+      <p data-success-message></p>
+      <div class="modal-actions">
+        <a class="btn btn-primary" href="https://javier.teconecto.es/index.html">Volver al inicio</a>
+        <a class="btn btn-outline-dark" href="https://wa.me/34647808298" target="_blank" rel="noreferrer">Ir a WhatsApp ahora</a>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

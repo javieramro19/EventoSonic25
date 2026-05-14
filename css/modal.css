@@ -1,0 +1,32 @@
+/* =========================================================
+   MODAL: ventana de confirmacion del formulario
+   ========================================================= */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(26, 22, 18, 0.62);
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+  z-index: 110;
+}
+
+.modal-overlay[hidden] {
+  display: none !important;
+}
+
+.success-modal {
+  width: min(32rem, 100%);
+  border-radius: 28px;
+  padding: 2rem;
+  background: #fffaf5;
+  box-shadow: var(--shadow-strong);
+  display: grid;
+  gap: 1rem;
+  text-align: center;
+}
+
+.btn-small {
+  min-height: 2.8rem;
+  padding: 0.65rem 1.05rem;
+}

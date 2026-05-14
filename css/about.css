@@ -1,0 +1,84 @@
+/* =========================================================
+   SOBRE NOSOTROS: texto e imagen de presentacion
+   ========================================================= */
+.section-about {
+  position: relative;
+}
+
+.about-grid {
+  display: grid;
+  gap: 2rem;
+  align-items: center;
+}
+
+.section-about .tall-frame {
+  min-height: clamp(24rem, 42vw, 30rem);
+}
+
+.about-copy {
+  display: grid;
+  gap: 1.35rem;
+}
+
+.about-copy h2 {
+  font-size: clamp(1.9rem, 4vw, 2.75rem);
+}
+
+.about-copy > p {
+  max-width: 46rem;
+  font-size: clamp(1.08rem, 1.8vw, 1.22rem);
+  line-height: 1.75;
+}
+
+.metrics-grid {
+  display: grid;
+  gap: 1rem;
+  margin-top: 0.8rem;
+}
+
+/* TARJETAS BASE: apariencia compartida por tarjetas de la web */
+.metric-card,
+.gallery-card,
+.plan-card,
+.contact-card,
+.content-card,
+.summary-card {
+  background: rgba(255, 255, 255, 0.88);
+  border: 1px solid rgba(44, 44, 44, 0.07);
+  box-shadow: var(--shadow-soft);
+  backdrop-filter: blur(12px);
+}
+
+.metric-card {
+  border-radius: var(--radius-md);
+  padding: 1.2rem;
+  display: grid;
+  gap: 0.35rem;
+}
+
+.metric-card strong {
+  font-size: 1.35rem;
+}
+
+.metric-card span {
+  color: var(--text-soft);
+}
+
+.metric-icon {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 1rem;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(135deg, rgba(212, 175, 122, 0.2), rgba(245, 230, 218, 0.65));
+}
+
+.metric-icon svg {
+  width: 1.6rem;
+  height: 1.6rem;
+  stroke: var(--gold-deep);
+  fill: none;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}

@@ -1,0 +1,235 @@
+/* =========================================================
+   PAGINAS DE PLANES: detalle, formulario y resumen
+   ========================================================= */
+.plan-header {
+  position: sticky;
+}
+
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-weight: 800;
+  color: var(--gold-deep);
+}
+
+.plan-page {
+  padding-bottom: 4rem;
+}
+
+.plan-hero {
+  padding: clamp(4.5rem, 9vw, 6.5rem) 0 3.25rem;
+  background:
+    radial-gradient(circle at top left, rgba(255, 255, 255, 0.55), transparent 35%),
+    linear-gradient(135deg, rgba(212, 175, 122, 0.42), rgba(245, 230, 218, 0.9));
+}
+
+.plan-hero .container {
+  max-width: 52rem;
+}
+
+.plan-hero h1 {
+  font-size: clamp(2rem, 4.8vw, 3.6rem);
+}
+
+.plan-hero h1 + p {
+  max-width: 48rem;
+  font-size: clamp(1.12rem, 2vw, 1.32rem);
+  line-height: 1.75;
+}
+
+.plan-hero p + .plan-hero-price,
+.plan-hero h1 + p {
+  margin-top: 1rem;
+}
+
+.plan-hero-price {
+  display: inline-block;
+  margin-top: 1.5rem;
+  font-size: clamp(2rem, 5vw, 3rem);
+  color: var(--gold-deep);
+}
+
+.plan-layout {
+  display: grid;
+  gap: 1.5rem;
+  align-items: start;
+}
+
+.plan-main {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.content-card,
+.summary-card {
+  border-radius: 30px;
+  padding: 1.6rem;
+}
+
+.content-card {
+  display: grid;
+  gap: 1rem;
+}
+
+.include-list li {
+  padding-left: 1.7rem;
+}
+
+.booking-form {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.form-grid,
+.extras-grid {
+  display: grid;
+  gap: 1rem;
+}
+
+.field {
+  display: grid;
+  gap: 0.55rem;
+  color: var(--text);
+  font-weight: 700;
+}
+
+.field small {
+  color: var(--text-soft);
+  font-weight: 600;
+}
+
+.field input,
+.field select,
+.field textarea {
+  width: 100%;
+  border: 1px solid rgba(44, 44, 44, 0.12);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.85);
+  padding: 0.95rem 1rem;
+  color: var(--text);
+  transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
+}
+
+.field input:focus,
+.field select:focus,
+.field textarea:focus {
+  outline: none;
+  border-color: rgba(212, 175, 122, 0.92);
+  box-shadow: 0 0 0 4px rgba(212, 175, 122, 0.16);
+}
+
+.field-textarea textarea {
+  resize: vertical;
+  min-height: 10rem;
+}
+
+.block-heading h3 {
+  font-size: 1.35rem;
+}
+
+.extras-grid {
+  margin-top: 0.75rem;
+}
+
+.extra-card {
+  position: relative;
+  display: grid;
+  gap: 0.35rem;
+  padding: 1.2rem 1.15rem 1.2rem 3rem;
+  border-radius: 22px;
+  border: 1px solid rgba(44, 44, 44, 0.08);
+  background: rgba(255, 255, 255, 0.82);
+  cursor: pointer;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.extra-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 14px 30px rgba(44, 44, 44, 0.09);
+}
+
+.extra-card input {
+  position: absolute;
+  left: 1rem;
+  top: 1.2rem;
+  width: 1.15rem;
+  height: 1.15rem;
+  accent-color: var(--gold-deep);
+}
+
+.extra-card:has(input:checked) {
+  border-color: rgba(212, 175, 122, 0.65);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(245, 230, 218, 0.72));
+}
+
+.extra-title {
+  font-weight: 800;
+}
+
+.extra-description {
+  color: var(--text-soft);
+}
+
+.dietary-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.85rem;
+  margin-top: 0.75rem;
+}
+
+.dietary-options label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.9rem 1rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.82);
+  border: 1px solid rgba(44, 44, 44, 0.08);
+  font-weight: 700;
+}
+
+.dietary-options input {
+  accent-color: var(--gold-deep);
+}
+
+.summary-card {
+  position: sticky;
+  top: calc(var(--header-height) + 1rem);
+  display: grid;
+  gap: 1rem;
+}
+
+.summary-line,
+.summary-total {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.summary-line span,
+.summary-extras p,
+.summary-note {
+  color: var(--text-soft);
+}
+
+.summary-total {
+  border-top: 1px solid rgba(44, 44, 44, 0.1);
+  padding-top: 1rem;
+  align-items: center;
+}
+
+.summary-total strong {
+  font-size: 1.5rem;
+  color: var(--gold-deep);
+}
+
+.form-error {
+  min-height: 1.5rem;
+  color: #c24848;
+  font-weight: 700;
+}
+
+.btn-submit {
+  width: 100%;
+}

@@ -1,0 +1,21 @@
+/* =========================================================
+   VARIABLES: colores, sombras, radios y medidas generales
+   ========================================================= */
+:root {
+  --bg: #fff8f3;
+  --surface: #ffffff;
+  --surface-soft: #f5e6da;
+  --surface-muted: #f8eee6;
+  --gold: #d4af7a;
+  --gold-deep: #bb935d;
+  --text: #2c2c2c;
+  --text-soft: #5f5a54;
+  --border: rgba(44, 44, 44, 0.08);
+  --shadow-soft: 0 18px 45px rgba(70, 47, 24, 0.12);
+  --shadow-strong: 0 22px 60px rgba(44, 44, 44, 0.16);
+  --radius-sm: 16px;
+  --radius-md: 24px;
+  --radius-lg: 34px;
+  --container: min(1120px, calc(100vw - 2rem));
+  --header-height: 82px;
+}
