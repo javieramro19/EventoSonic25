@@ -6,13 +6,238 @@ const currencyFormatter = new Intl.NumberFormat("es-ES", {
 
 document.addEventListener("DOMContentLoaded", async () => {
   await loadPartials();
+  await initEventsGallery();
+  await initPlansGallery();
   initMobileMenu();
   initAnchorNavigation();
   initRevealAnimations();
   initMediaFrames();
   initCarousel();
-  initPlanPage();
+  await initPlanPage();
 });
+
+async function initEventsGallery() {
+  const list = document.querySelector("[data-events-list]");
+  const modal = document.querySelector("[data-event-modal]");
+  if (!list) return;
+
+  try {
+    const events = await fetchPublishedEvents();
+    list.replaceChildren();
+    if (!events.length) {
+      list.appendChild(createPublicEmptyState("Muy pronto publicaremos nuevos eventos."));
+      return;
+    }
+    events.forEach((eventData) => {
+      list.appendChild(createEventCard(eventData, modal));
+    });
+  } catch (error) {
+    console.info("La galería publicada no está disponible; se muestran los ejemplos incluidos.", error);
+  }
+
+  if (!modal) return;
+  modal.querySelector("[data-event-close]")?.addEventListener("click", () => modal.close());
+  modal.addEventListener("click", (event) => {
+    if (event.target === modal) modal.close();
+  });
+}
+
+async function fetchPublishedEvents() {
+  if (!window.EventoSonicSupabase) return [];
+  const client = await window.EventoSonicSupabase.getClient();
+  const { data, error } = await client
+    .from("events")
+    .select("id,title,cover_path,created_at,updated_at,event_images(storage_path,sort_order,id)")
+    .eq("is_visible", true)
+    .order("created_at", { ascending: false });
+
+  if (error) throw error;
+  return (data || []).map((eventData) => mapSupabaseEvent(client, eventData));
+}
+
+async function initPlansGallery() {
+  const list = document.querySelector("[data-plans-list]");
+  if (!list || !window.EventoSonicSupabase) return;
+
+  try {
+    const client = await window.EventoSonicSupabase.getClient();
+    const { data, error } = await client
+      .from("plans")
+      .select("id,slug,name,icon,price,short_description,features,is_featured,featured_label,sort_order")
+      .eq("is_visible", true)
+      .order("sort_order", { ascending: true })
+      .order("created_at", { ascending: true });
+    if (error) throw error;
+    list.replaceChildren();
+    if (!data?.length) {
+      list.appendChild(createPublicEmptyState("Estamos preparando nuevos planes para ti."));
+      return;
+    }
+    data.forEach((plan) => list.appendChild(createPlanCard(plan)));
+  } catch (error) {
+    console.info("Los planes editables todavía no están disponibles; se muestran los planes incluidos.", error);
+  }
+}
+
+function createPublicEmptyState(message) {
+  const empty = document.createElement("p");
+  empty.className = "public-empty-state";
+  empty.textContent = message;
+  return empty;
+}
+
+function createPlanCard(plan) {
+  const card = document.createElement("article");
+  card.className = `plan-card reveal${plan.is_featured ? " plan-card-featured" : ""}`;
+
+  if (plan.is_featured) {
+    const badge = document.createElement("span");
+    badge.className = "plan-badge";
+    badge.textContent = plan.featured_label || "Destacado";
+    card.appendChild(badge);
+  }
+
+  const icon = document.createElement("span");
+  icon.className = "plan-icon";
+  icon.setAttribute("aria-hidden", "true");
+  icon.textContent = plan.icon || "ES";
+
+  const title = document.createElement("h3");
+  title.textContent = plan.name;
+  const price = document.createElement("p");
+  price.className = "plan-price";
+  price.textContent = `desde ${formatCurrency(Number(plan.price || 0))}`;
+  const description = document.createElement("p");
+  description.className = "plan-description";
+  description.textContent = plan.short_description || "Una propuesta personalizada para tu celebración";
+  const features = document.createElement("ul");
+  features.className = "plan-features";
+  (Array.isArray(plan.features) ? plan.features : []).forEach((feature) => {
+    const item = document.createElement("li");
+    item.textContent = feature;
+    features.appendChild(item);
+  });
+  const link = document.createElement("a");
+  link.className = "btn btn-primary";
+  link.href = `/plan/${encodeURIComponent(plan.slug)}`;
+  link.textContent = "Seleccionar plan";
+
+  card.append(icon, title, price, description, features, link);
+  return card;
+}
+
+function mapSupabaseEvent(client, eventData) {
+  const imageUrl = (path) => client.storage
+    .from(window.EventoSonicSupabase.bucket)
+    .getPublicUrl(path).data.publicUrl;
+  const gallery = [...(eventData.event_images || [])]
+    .sort((left, right) => left.sort_order - right.sort_order || left.id - right.id)
+    .map((item) => imageUrl(item.storage_path));
+  const cover = imageUrl(eventData.cover_path);
+
+  return {
+    id: eventData.id,
+    title: eventData.title,
+    mainImage: cover,
+    images: [cover, ...gallery],
+    createdAt: eventData.created_at,
+    updatedAt: eventData.updated_at
+  };
+}
+
+function createEventCard(eventData, modal) {
+  const card = document.createElement("article");
+  card.className = "gallery-card event-card";
+
+  const button = document.createElement("button");
+  button.type = "button";
+  button.className = "event-card-button";
+  button.setAttribute("aria-label", `Ver fotos de ${eventData.title}`);
+  button.addEventListener("click", () => openEventModal(modal, eventData));
+
+  const frame = document.createElement("div");
+  frame.className = "media-frame gallery-frame";
+
+  const image = document.createElement("img");
+  image.src = eventData.mainImage;
+  image.alt = eventData.title;
+  image.loading = "lazy";
+  image.className = "media-image media-imagen-galeria";
+
+  const placeholder = document.createElement("div");
+  placeholder.className = "media-placeholder";
+  const placeholderTitle = document.createElement("strong");
+  placeholderTitle.textContent = eventData.title;
+  const placeholderText = document.createElement("span");
+  placeholderText.textContent = "Fotografía principal del evento";
+  placeholder.append(placeholderTitle, placeholderText);
+  frame.append(image, placeholder);
+
+  const copy = document.createElement("span");
+  copy.className = "event-card-copy";
+  const title = document.createElement("h3");
+  title.textContent = eventData.title;
+  const count = document.createElement("span");
+  const total = Array.isArray(eventData.images) ? eventData.images.length : 1;
+  count.textContent = total === 1 ? "Ver foto" : `Ver ${total} fotos`;
+  copy.append(title, count);
+
+  button.append(frame, copy);
+  card.appendChild(button);
+  return card;
+}
+
+function openEventModal(modal, eventData) {
+  if (!modal) return;
+
+  const title = modal.querySelector("[data-event-title]");
+  const mainImage = modal.querySelector("[data-event-main]");
+  const count = modal.querySelector("[data-event-photo-count]");
+  const thumbnails = modal.querySelector("[data-event-thumbnails]");
+  const images = Array.isArray(eventData.images) && eventData.images.length
+    ? eventData.images
+    : [eventData.mainImage];
+
+  if (title) title.textContent = eventData.title;
+  if (count) count.textContent = images.length === 1 ? "1 fotografía" : `${images.length} fotografías`;
+  if (mainImage) {
+    mainImage.src = images[0];
+    mainImage.alt = eventData.title;
+    mainImage.closest(".media-frame")?.classList.remove("is-missing");
+  }
+
+  if (thumbnails) {
+    thumbnails.replaceChildren();
+    images.forEach((source, index) => {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "event-thumbnail";
+      button.classList.toggle("is-active", index === 0);
+      button.setAttribute("aria-label", `Ver foto ${index + 1} de ${eventData.title}`);
+
+      const image = document.createElement("img");
+      image.src = source;
+      image.alt = "";
+      image.loading = "lazy";
+      button.appendChild(image);
+      button.addEventListener("click", () => {
+        if (mainImage) {
+          mainImage.src = source;
+          mainImage.alt = `${eventData.title}, foto ${index + 1}`;
+        }
+        thumbnails.querySelectorAll(".event-thumbnail").forEach((item) => item.classList.remove("is-active"));
+        button.classList.add("is-active");
+      });
+      thumbnails.appendChild(button);
+    });
+  }
+
+  if (typeof modal.showModal === "function") {
+    modal.showModal();
+  } else {
+    modal.setAttribute("open", "");
+  }
+}
 
 async function loadPartials() {
   const partials = document.querySelectorAll("[data-include]");
@@ -228,10 +453,38 @@ function getSlidesPerView() {
   return 1;
 }
 
-function initPlanPage() {
+async function initPlanPage() {
   const planPage = document.querySelector("[data-plan-page]");
   const form = document.querySelector("[data-booking-form]");
   if (!planPage || !form) return;
+
+  const dynamicSlug = new URLSearchParams(window.location.search).get("slug");
+  if (dynamicSlug) {
+    try {
+      const plan = await fetchPublishedPlan(dynamicSlug);
+      populatePlanPage(planPage, form, plan);
+    } catch (error) {
+      const hero = planPage.querySelector(".plan-hero .container");
+      if (hero) {
+        hero.replaceChildren();
+        const eyebrow = document.createElement("p");
+        eyebrow.className = "eyebrow";
+        eyebrow.textContent = "Plan no disponible";
+        const title = document.createElement("h1");
+        title.textContent = "Este plan no está publicado";
+        const message = document.createElement("p");
+        message.textContent = "Puede que se haya ocultado o eliminado. Vuelve a nuestros planes para elegir otra opción.";
+        const link = document.createElement("a");
+        link.className = "btn btn-primary";
+        link.href = "/#planes";
+        link.textContent = "Ver planes disponibles";
+        hero.append(eyebrow, title, message, link);
+      }
+      planPage.querySelector(".section")?.setAttribute("hidden", "");
+      console.info("No se pudo cargar el plan solicitado.", error);
+      return;
+    }
+  }
 
   const basePrice = Number(planPage.dataset.planPrice || 0);
   const planName = planPage.dataset.planName || "Plan EventoSonic";
@@ -304,7 +557,7 @@ function initPlanPage() {
     }
 
     try {
-      const response = await fetch("/api/requests.php", {
+      const response = await fetch("/api/requests", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -366,6 +619,70 @@ function initPlanPage() {
     if (summaryTotal) {
       summaryTotal.textContent = formatCurrency(total);
     }
+  }
+}
+
+async function fetchPublishedPlan(slug) {
+  if (!window.EventoSonicSupabase) throw new Error("Supabase no está disponible.");
+  const client = await window.EventoSonicSupabase.getClient();
+  const { data, error } = await client
+    .from("plans")
+    .select("slug,name,price,hero_title,hero_description,includes_title,features,extras")
+    .eq("slug", slug)
+    .eq("is_visible", true)
+    .maybeSingle();
+  if (error || !data) throw error || new Error("Plan no encontrado.");
+  return data;
+}
+
+function populatePlanPage(planPage, form, plan) {
+  planPage.dataset.planName = plan.name;
+  planPage.dataset.planPrice = String(plan.price || 0);
+  document.title = `${plan.name} | EventoSonic`;
+
+  const heroEyebrow = planPage.querySelector(".plan-hero .eyebrow");
+  const heroTitle = planPage.querySelector(".plan-hero h1");
+  const heroDescription = planPage.querySelector(".plan-hero .container > p:last-child");
+  const includesTitle = planPage.querySelector(".plan-main > .content-card h2");
+  const includesList = planPage.querySelector(".include-list");
+  const extrasGrid = form.querySelector(".extras-grid");
+
+  if (heroEyebrow) heroEyebrow.textContent = plan.name;
+  if (heroTitle) heroTitle.textContent = plan.hero_title;
+  if (heroDescription) heroDescription.textContent = plan.hero_description || "";
+  if (includesTitle) includesTitle.textContent = plan.includes_title || "Qué incluye";
+
+  if (includesList) {
+    includesList.replaceChildren();
+    (Array.isArray(plan.features) ? plan.features : []).forEach((feature) => {
+      const item = document.createElement("li");
+      item.textContent = feature;
+      includesList.appendChild(item);
+    });
+  }
+
+  if (extrasGrid) {
+    extrasGrid.replaceChildren();
+    (Array.isArray(plan.extras) ? plan.extras : []).forEach((extra) => {
+      const label = document.createElement("label");
+      label.className = "extra-card";
+      const input = document.createElement("input");
+      input.type = "checkbox";
+      input.name = "extras";
+      input.value = extra.name || "Extra";
+      input.dataset.price = String(Number(extra.price || 0));
+      const title = document.createElement("span");
+      title.className = "extra-title";
+      title.append(document.createTextNode(`${input.value} `));
+      const price = document.createElement("strong");
+      price.textContent = `(+${formatCurrency(Number(extra.price || 0))})`;
+      title.appendChild(price);
+      const description = document.createElement("span");
+      description.className = "extra-description";
+      description.textContent = extra.description || "";
+      label.append(input, title, description);
+      extrasGrid.appendChild(label);
+    });
   }
 }
 

@@ -1,23 +1,18 @@
-<!-- GALERIA: carrusel con trabajos realizados -->
-    <section class="section section-gallery" id="trabajo">
+<!-- EVENTOS: trabajos publicados desde el panel privado -->
+    <section class="section section-gallery" id="eventos">
       <div class="container">
-        <!-- TITULO GALERIA: cambia aqui el encabezado del carrusel -->
         <div class="section-heading reveal">
-          <p class="eyebrow">Galería</p>
-          <h2>Nuestro trabajo</h2>
-          <p>Algunas de las mesas que hemos creado para nuestros clientes</p>
+          <p class="eyebrow">Eventos</p>
+          <h2>Celebraciones que ya hemos decorado</h2>
+          <p>Descubre algunas temáticas y montajes creados para nuestros clientes</p>
         </div>
-        <!-- CARRUSEL: modifica, anade o elimina tarjetas gallery-card -->
         <div class="carousel reveal" data-carousel>
-          <!-- FLECHA IZQUIERDA: boton anterior del carrusel -->
           <button class="carousel-arrow carousel-arrow-prev" type="button" data-carousel-prev aria-label="Anterior">
             <span>&lsaquo;</span>
           </button>
-          <!-- VENTANA CARRUSEL: oculta las tarjetas que quedan fuera -->
           <div class="carousel-viewport">
-            <!-- PISTA CARRUSEL: aqui van todas las tarjetas -->
-            <div class="carousel-track">
-              <!-- TARJETA GALERIA 1: cambia imagen, alt y titulo -->
+            <div class="carousel-track" data-events-list>
+              <!-- Estas tarjetas se muestran como ejemplo mientras todavía no haya eventos publicados. -->
               <article class="gallery-card">
                 <div class="media-frame gallery-frame">
                   <img src="images/imagen1.webp" alt="Mesa boda romántica" class="media-image media-imagen-galeria">
@@ -28,7 +23,6 @@
                 </div>
                 <h3>Mesa boda romántica</h3>
               </article>
-              <!-- TARJETA GALERIA 2: cambia imagen, alt y titulo -->
               <article class="gallery-card">
                 <div class="media-frame gallery-frame">
                   <img src="images/imagen2.webp" alt="Mesa infantil temática" class="media-image media-imagen-galeria">
@@ -39,7 +33,6 @@
                 </div>
                 <h3>Mesa infantil temática</h3>
               </article>
-              <!-- TARJETA GALERIA 3: cambia imagen, alt y titulo -->
               <article class="gallery-card">
                 <div class="media-frame gallery-frame">
                   <img src="images/imagen3.webp" alt="Mesa salada corporativa" class="media-image media-imagen-galeria">
@@ -52,12 +45,29 @@
               </article>
             </div>
           </div>
-          <!-- FLECHA DERECHA: boton siguiente del carrusel -->
           <button class="carousel-arrow carousel-arrow-next" type="button" data-carousel-next aria-label="Siguiente">
             <span>&rsaquo;</span>
           </button>
-          <!-- PUNTOS CARRUSEL: los crea y actualiza js/main.js -->
           <div class="carousel-dots" data-carousel-dots aria-label="Indicadores del carrusel"></div>
         </div>
       </div>
     </section>
+
+    <dialog class="event-modal" data-event-modal aria-labelledby="event-modal-title">
+      <div class="event-modal-shell">
+        <button class="event-modal-close" type="button" data-event-close aria-label="Cerrar evento">&times;</button>
+        <div class="media-frame event-modal-main">
+          <img class="media-image" data-event-main alt="">
+          <div class="media-placeholder">
+            <strong>EventoSonic</strong>
+            <span>Fotografía del evento</span>
+          </div>
+        </div>
+        <div class="event-modal-copy">
+          <p class="eyebrow">Evento realizado</p>
+          <h2 id="event-modal-title" data-event-title></h2>
+          <p class="event-photo-count" data-event-photo-count></p>
+          <div class="event-thumbnails" data-event-thumbnails aria-label="Fotos del evento"></div>
+        </div>
+      </div>
+    </dialog>

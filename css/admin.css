@@ -278,3 +278,342 @@
 .empty-state {
   color: var(--text-soft);
 }
+
+.admin-events-section {
+  display: grid;
+  gap: 1.25rem;
+  margin-top: 1.25rem;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(44, 44, 44, 0.1);
+}
+
+.admin-workers-section,
+.admin-plans-section {
+  display: grid;
+  gap: 1.25rem;
+  margin-top: 1.25rem;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(44, 44, 44, 0.1);
+}
+
+.admin-workers-heading,
+.admin-plans-heading {
+  align-items: end;
+}
+
+.admin-workers-heading h2,
+.admin-plans-heading h2 {
+  font-size: clamp(1.8rem, 4vw, 2.7rem);
+}
+
+.admin-workers-heading p:last-child,
+.admin-plans-heading p:last-child,
+.worker-form-intro {
+  color: var(--text-soft);
+}
+
+.admin-workers-grid,
+.admin-plans-grid {
+  display: grid;
+  gap: 1.35rem;
+  align-items: start;
+}
+
+.worker-form-card,
+.worker-list-card,
+.plan-admin-form-card,
+.plan-admin-list-card {
+  min-width: 0;
+}
+
+.admin-worker-list {
+  display: grid;
+  gap: 0.85rem;
+}
+
+.admin-worker-row {
+  display: grid;
+  grid-template-columns: 3.25rem minmax(0, 1fr);
+  gap: 0.9rem;
+  align-items: center;
+  padding: 0.9rem;
+  border-radius: 18px;
+  border: 1px solid rgba(44, 44, 44, 0.08);
+  background: rgba(255, 255, 255, 0.72);
+}
+
+.admin-worker-avatar {
+  width: 3.25rem;
+  aspect-ratio: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--gold) 0%, var(--gold-deep) 100%);
+  color: #fff;
+  font-family: "Playfair Display", serif;
+  font-size: 1.35rem;
+  font-weight: 800;
+}
+
+.admin-worker-name {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  align-items: center;
+}
+
+.admin-worker-row h4,
+.admin-worker-row p {
+  margin: 0;
+}
+
+.admin-worker-row h4 {
+  font-family: "Playfair Display", serif;
+  font-size: 1.08rem;
+}
+
+.admin-worker-row p,
+.admin-worker-row small {
+  overflow-wrap: anywhere;
+  color: var(--text-soft);
+}
+
+.worker-current-badge {
+  border-radius: 999px;
+  padding: 0.18rem 0.55rem;
+  background: rgba(37, 211, 102, 0.14);
+  color: #166534;
+  font-size: 0.75rem;
+  font-weight: 900;
+}
+
+.admin-events-heading h2 {
+  font-size: clamp(1.8rem, 4vw, 2.7rem);
+}
+
+.admin-events-grid {
+  display: grid;
+  gap: 1.35rem;
+  align-items: start;
+}
+
+.event-form-card,
+.event-list-card {
+  min-width: 0;
+}
+
+.event-form-intro {
+  color: var(--text-soft);
+}
+
+.event-file-field input[type="file"] {
+  padding: 0.65rem;
+  cursor: pointer;
+}
+
+.event-file-field input[type="file"]::file-selector-button {
+  margin-right: 0.8rem;
+  border: 0;
+  border-radius: 999px;
+  padding: 0.7rem 1rem;
+  background: var(--surface-soft);
+  color: var(--text);
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.event-upload-preview {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(5.5rem, 1fr));
+  gap: 0.7rem;
+}
+
+.event-preview-item {
+  min-width: 0;
+  margin: 0;
+  border-radius: 15px;
+  overflow: hidden;
+  background: var(--surface-muted);
+  border: 1px solid rgba(44, 44, 44, 0.08);
+}
+
+.event-preview-item img {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+}
+
+.event-preview-item figcaption {
+  overflow: hidden;
+  padding: 0.45rem 0.55rem;
+  color: var(--text-soft);
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.form-success {
+  min-height: 1.5rem;
+  color: #166534;
+  font-weight: 800;
+}
+
+.admin-event-list {
+  display: grid;
+  gap: 0.85rem;
+}
+
+.admin-event-row {
+  display: grid;
+  grid-template-columns: 5.5rem minmax(0, 1fr);
+  gap: 0.9rem;
+  align-items: center;
+  padding: 0.75rem;
+  border-radius: 18px;
+  border: 1px solid rgba(44, 44, 44, 0.08);
+  background: rgba(255, 255, 255, 0.72);
+}
+
+.admin-event-row > img {
+  width: 5.5rem;
+  aspect-ratio: 1.1;
+  border-radius: 12px;
+  object-fit: cover;
+}
+
+.admin-event-row h4 {
+  margin: 0;
+  font-family: "Playfair Display", serif;
+  font-size: 1.08rem;
+  line-height: 1.2;
+}
+
+.admin-event-row p {
+  margin-top: 0.25rem;
+  color: var(--text-soft);
+  font-size: 0.88rem;
+}
+
+.admin-event-row .btn {
+  grid-column: 1 / -1;
+  width: 100%;
+}
+
+.admin-row-actions {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+}
+
+.admin-row-actions .btn {
+  width: auto;
+  flex: 1 1 auto;
+}
+
+.content-visibility {
+  width: fit-content;
+  display: inline-flex;
+  margin-top: 0.4rem;
+  border-radius: 999px;
+  padding: 0.25rem 0.65rem;
+  font-size: 0.76rem;
+  font-weight: 900;
+}
+
+.content-visibility.is-visible {
+  background: rgba(37, 211, 102, 0.14);
+  color: #166534;
+}
+
+.content-visibility.is-hidden {
+  background: rgba(44, 44, 44, 0.09);
+  color: var(--text-soft);
+}
+
+.plan-admin-checks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1.4rem;
+}
+
+.plan-admin-checks label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  font-weight: 800;
+}
+
+.admin-plan-list {
+  display: grid;
+  gap: 0.85rem;
+}
+
+.admin-plan-row {
+  display: grid;
+  grid-template-columns: 3.5rem minmax(0, 1fr);
+  gap: 0.9rem;
+  align-items: center;
+  padding: 0.9rem;
+  border-radius: 18px;
+  border: 1px solid rgba(44, 44, 44, 0.08);
+  background: rgba(255, 255, 255, 0.72);
+}
+
+.admin-plan-icon {
+  width: 3.5rem;
+  aspect-ratio: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 16px;
+  background: var(--surface-soft);
+  color: var(--gold-deep);
+  font-family: "Playfair Display", serif;
+  font-weight: 900;
+}
+
+.admin-plan-row h4,
+.admin-plan-row p {
+  margin: 0;
+}
+
+.admin-plan-row h4 {
+  font-family: "Playfair Display", serif;
+  font-size: 1.08rem;
+}
+
+.admin-plan-row p {
+  margin-top: 0.25rem;
+  color: var(--text-soft);
+  font-size: 0.88rem;
+}
+
+@media (min-width: 900px) {
+  .admin-events-grid {
+    grid-template-columns: minmax(0, 1.05fr) minmax(22rem, 0.95fr);
+  }
+
+  .admin-workers-grid {
+    grid-template-columns: minmax(0, 0.9fr) minmax(24rem, 1.1fr);
+  }
+
+  .admin-plans-grid {
+    grid-template-columns: minmax(0, 1.05fr) minmax(24rem, 0.95fr);
+  }
+
+  .admin-event-row {
+    grid-template-columns: 5.5rem minmax(0, 1fr) auto;
+  }
+
+  .admin-event-row .admin-row-actions {
+    grid-column: auto;
+    justify-content: flex-end;
+  }
+
+  .admin-plan-row {
+    grid-template-columns: 3.5rem minmax(0, 1fr);
+  }
+}

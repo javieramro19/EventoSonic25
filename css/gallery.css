@@ -39,6 +39,27 @@
   padding: 1.25rem 1.2rem 1.4rem;
 }
 
+.event-card-button {
+  width: 100%;
+  color: inherit;
+  text-align: left;
+}
+
+.event-card-copy {
+  display: grid;
+  gap: 0.2rem;
+  padding: 1.15rem 1.2rem 1.35rem;
+}
+
+.event-card-copy h3 {
+  padding: 0;
+}
+
+.event-card-copy > span {
+  color: var(--gold-deep);
+  font-weight: 800;
+}
+
 .gallery-frame {
   min-height: 18rem;
   border-radius: 0;
@@ -95,4 +116,108 @@
 .carousel-dot.active {
   transform: scale(1.2);
   background: var(--gold-deep);
+}
+
+.event-modal {
+  width: min(68rem, calc(100vw - 2rem));
+  max-height: calc(100dvh - 2rem);
+  border: 0;
+  border-radius: 30px;
+  padding: 0;
+  background: #fffaf6;
+  color: var(--text);
+  box-shadow: var(--shadow-strong);
+}
+
+.event-modal::backdrop {
+  background: rgba(26, 22, 18, 0.72);
+  backdrop-filter: blur(5px);
+}
+
+.event-modal-shell {
+  position: relative;
+  display: grid;
+  gap: 1.5rem;
+  padding: 1rem;
+}
+
+.event-modal-close {
+  position: absolute;
+  z-index: 2;
+  top: 1.7rem;
+  right: 1.7rem;
+  width: 2.8rem;
+  height: 2.8rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.94);
+  box-shadow: 0 10px 26px rgba(44, 44, 44, 0.2);
+  color: var(--text);
+  font-size: 1.8rem;
+  line-height: 1;
+}
+
+.event-modal-main {
+  min-height: min(64vw, 31rem);
+  border-radius: 22px;
+}
+
+.event-modal-copy {
+  display: grid;
+  align-content: start;
+  gap: 0.8rem;
+  padding: 0.5rem 0.5rem 1rem;
+}
+
+.event-modal-copy h2 {
+  font-size: clamp(1.8rem, 4vw, 2.7rem);
+}
+
+.event-photo-count {
+  color: var(--text-soft);
+  font-weight: 700;
+}
+
+.event-thumbnails {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(4.5rem, 1fr));
+  gap: 0.65rem;
+  max-height: 15rem;
+  overflow-y: auto;
+  padding: 0.15rem;
+}
+
+.event-thumbnail {
+  aspect-ratio: 1;
+  overflow: hidden;
+  border: 3px solid transparent;
+  border-radius: 14px;
+  background: var(--surface-muted);
+  transition: border-color 0.2s ease, transform 0.2s ease;
+}
+
+.event-thumbnail:hover,
+.event-thumbnail:focus-visible,
+.event-thumbnail.is-active {
+  border-color: var(--gold-deep);
+  transform: translateY(-2px);
+}
+
+.event-thumbnail img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+@media (min-width: 850px) {
+  .event-modal-shell {
+    grid-template-columns: minmax(0, 1.55fr) minmax(17rem, 0.75fr);
+  }
+
+  .event-modal-main {
+    min-height: min(70vh, 38rem);
+  }
+
+  .event-modal-copy {
+    padding: 2rem 1rem 1rem 0;
+  }
 }

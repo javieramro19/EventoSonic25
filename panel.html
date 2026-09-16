@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Panel privado de trabajadores de EventoSonic para gestionar solicitudes de reserva.">
+  <meta name="description" content="Panel privado de EventoSonic para gestionar solicitudes y publicar nuevos eventos.">
   <title>Panel de gestión | EventoSonic</title>
   <link rel="icon" href="images/icons/favicon.ico" sizes="any">
   <link rel="icon" type="image/png" href="images/icons/favicon-32x32.png" sizes="32x32">
@@ -18,7 +18,7 @@
 <body data-page="panel">
   <header class="site-header plan-header">
     <nav class="navbar container" aria-label="Principal">
-      <a class="brand" href="https://javier.teconecto.es/index.html">Evento<span>Sonic</span></a>
+      <a class="brand" href="index.html">Evento<span>Sonic</span></a>
       <div class="panel-nav-actions">
         <a class="back-link" href="index.html">&larr; Volver a inicio</a>
         <button class="btn btn-outline-dark btn-small" type="button" data-logout hidden>Cerrar sesión</button>
@@ -31,7 +31,7 @@
       <div class="container reveal">
         <p class="eyebrow">Área privada</p>
         <h1>Panel de gestión</h1>
-        <p>Gestiona las solicitudes recibidas, acepta las reservas viables y contacta con el cliente desde sus datos protegidos.</p>
+        <p>Gestiona las solicitudes recibidas y publica nuevos eventos con su foto principal y galería.</p>
       </div>
     </section>
 
@@ -42,8 +42,8 @@
           <h2>Inicia sesión</h2>
           <form class="booking-form" data-login-form novalidate>
             <label class="field">
-              <span>Usuario</span>
-              <input type="text" name="username" autocomplete="username" required>
+              <span>Email</span>
+              <input type="email" name="email" autocomplete="username" required>
             </label>
             <label class="field">
               <span>Contraseña</span>
@@ -99,12 +99,207 @@
               </div>
             </section>
           </div>
+
+          <section class="admin-events-section reveal" aria-labelledby="admin-events-title">
+            <div class="admin-section-heading admin-events-heading">
+              <div>
+                <p class="eyebrow">Galería pública</p>
+                <h2 id="admin-events-title">Publicar un evento</h2>
+              </div>
+              <button class="btn btn-outline-dark btn-small" type="button" data-events-refresh>Actualizar eventos</button>
+            </div>
+
+            <div class="admin-events-grid">
+              <section class="content-card event-form-card">
+                <h3>Nueva temática</h3>
+                <p class="event-form-intro">Añade el título, elige la imagen que representará el evento y sube el resto de fotografías.</p>
+                <form class="booking-form" data-event-form enctype="multipart/form-data" novalidate>
+                  <label class="field">
+                    <span>Título de la temática</span>
+                    <input type="text" name="title" maxlength="160" placeholder="Ej. Cumpleaños de princesas" required>
+                  </label>
+
+                  <label class="field event-file-field">
+                    <span>Foto principal</span>
+                    <input type="file" name="cover" accept="image/jpeg,image/png,image/webp" required data-event-cover>
+                    <small>Será la portada que se verá en la página principal. JPG, PNG o WebP, máximo 8 MB.</small>
+                  </label>
+                  <div class="event-upload-preview event-cover-preview" data-cover-preview aria-live="polite"></div>
+
+                  <label class="field event-file-field">
+                    <span>Fotos de la galería</span>
+                    <input type="file" name="gallery[]" accept="image/jpeg,image/png,image/webp" multiple data-event-gallery>
+                    <small>Puedes añadir hasta 15 fotografías más, en el orden en que quieras mostrarlas.</small>
+                  </label>
+                  <div class="event-upload-preview event-gallery-preview" data-gallery-preview aria-live="polite"></div>
+
+                  <p class="form-success" data-event-success aria-live="polite"></p>
+                  <p class="form-error" data-event-error aria-live="polite"></p>
+                  <button class="btn btn-primary btn-submit" type="submit">Publicar evento</button>
+                </form>
+              </section>
+
+              <section class="content-card event-list-card">
+                <div class="admin-section-heading">
+                  <h3>Eventos publicados</h3>
+                  <span data-event-count></span>
+                </div>
+                <div class="admin-event-list" data-event-list>
+                  <p class="empty-state">Todavía no hay eventos publicados.</p>
+                </div>
+              </section>
+            </div>
+          </section>
+
+          <section class="admin-plans-section reveal" aria-labelledby="admin-plans-title">
+            <div class="admin-section-heading admin-plans-heading">
+              <div>
+                <p class="eyebrow">Oferta comercial</p>
+                <h2 id="admin-plans-title">Gestión de planes</h2>
+                <p>Crea planes nuevos o modifica precio, textos, contenido y extras de los actuales.</p>
+              </div>
+              <button class="btn btn-outline-dark btn-small" type="button" data-plans-refresh>Actualizar planes</button>
+            </div>
+
+            <div class="admin-plans-grid">
+              <section class="content-card plan-admin-form-card">
+                <div class="admin-section-heading">
+                  <h3 data-plan-form-title>Nuevo plan</h3>
+                  <button class="btn btn-outline-dark btn-small" type="button" data-plan-cancel hidden>Cancelar edición</button>
+                </div>
+                <form class="booking-form" data-plan-form novalidate>
+                  <input type="hidden" name="planId">
+                  <div class="form-grid">
+                    <label class="field">
+                      <span>Nombre del plan</span>
+                      <input type="text" name="name" maxlength="100" placeholder="Ej. Plan Celebración" required>
+                    </label>
+                    <label class="field">
+                      <span>Dirección del plan</span>
+                      <input type="text" name="slug" maxlength="100" placeholder="plan-celebracion" required>
+                      <small>Se completa automáticamente y puede modificarse.</small>
+                    </label>
+                    <label class="field">
+                      <span>Precio base (€)</span>
+                      <input type="number" name="price" min="0" step="1" required>
+                    </label>
+                    <label class="field">
+                      <span>Icono (máx. 4 letras)</span>
+                      <input type="text" name="icon" maxlength="4" placeholder="PC" required>
+                    </label>
+                    <label class="field">
+                      <span>Orden</span>
+                      <input type="number" name="sortOrder" min="0" step="1" value="0">
+                    </label>
+                    <label class="field">
+                      <span>Etiqueta destacada</span>
+                      <input type="text" name="featuredLabel" maxlength="40" value="Más popular">
+                    </label>
+                  </div>
+
+                  <label class="field field-textarea">
+                    <span>Descripción corta de la tarjeta</span>
+                    <textarea name="shortDescription" rows="2" maxlength="240" required></textarea>
+                  </label>
+                  <label class="field field-textarea">
+                    <span>Título principal</span>
+                    <textarea name="heroTitle" rows="2" maxlength="180" required></textarea>
+                  </label>
+                  <label class="field field-textarea">
+                    <span>Descripción completa</span>
+                    <textarea name="heroDescription" rows="4" maxlength="1200" required></textarea>
+                  </label>
+                  <label class="field">
+                    <span>Título de “Qué incluye”</span>
+                    <input type="text" name="includesTitle" maxlength="180" required>
+                  </label>
+                  <label class="field field-textarea">
+                    <span>Características incluidas</span>
+                    <textarea name="features" rows="6" placeholder="Una característica por línea" required></textarea>
+                    <small>Escribe una característica en cada línea.</small>
+                  </label>
+                  <label class="field field-textarea">
+                    <span>Extras opcionales</span>
+                    <textarea name="extras" rows="7" placeholder="Tarta personalizada | 80 | Tarta decorada a juego"></textarea>
+                    <small>Un extra por línea: Nombre | Precio | Descripción.</small>
+                  </label>
+
+                  <div class="plan-admin-checks">
+                    <label><input type="checkbox" name="isFeatured"> <span>Marcar como destacado</span></label>
+                    <label><input type="checkbox" name="isVisible" checked> <span>Mostrar en la web</span></label>
+                  </div>
+
+                  <p class="form-success" data-plan-success aria-live="polite"></p>
+                  <p class="form-error" data-plan-error aria-live="polite"></p>
+                  <button class="btn btn-primary btn-submit" type="submit" data-plan-submit>Crear plan</button>
+                </form>
+              </section>
+
+              <section class="content-card plan-admin-list-card">
+                <div class="admin-section-heading">
+                  <h3>Planes configurados</h3>
+                  <span data-plan-count></span>
+                </div>
+                <div class="admin-plan-list" data-plan-list>
+                  <p class="empty-state">Cargando planes...</p>
+                </div>
+              </section>
+            </div>
+          </section>
+
+          <section class="admin-workers-section reveal" aria-labelledby="admin-workers-title">
+            <div class="admin-section-heading admin-workers-heading">
+              <div>
+                <p class="eyebrow">Accesos al panel</p>
+                <h2 id="admin-workers-title">Trabajadores</h2>
+                <p>Crea las cuentas del equipo que podrán gestionar solicitudes y publicar eventos.</p>
+              </div>
+              <button class="btn btn-outline-dark btn-small" type="button" data-workers-refresh>Actualizar trabajadores</button>
+            </div>
+
+            <div class="admin-workers-grid">
+              <section class="content-card worker-form-card">
+                <h3>Nuevo trabajador</h3>
+                <p class="worker-form-intro">Entrará al panel con el correo y la contraseña que indiques.</p>
+                <form class="booking-form" data-worker-form novalidate>
+                  <label class="field">
+                    <span>Nombre</span>
+                    <input type="text" name="displayName" maxlength="80" placeholder="Ej. María" autocomplete="name" required>
+                  </label>
+                  <label class="field">
+                    <span>Email</span>
+                    <input type="email" name="email" maxlength="180" placeholder="trabajador@ejemplo.com" autocomplete="off" required>
+                  </label>
+                  <label class="field">
+                    <span>Contraseña inicial</span>
+                    <input type="password" name="password" minlength="8" maxlength="72" autocomplete="new-password" required>
+                    <small>Mínimo 8 caracteres. Compártela con el trabajador por un medio privado.</small>
+                  </label>
+                  <p class="form-success" data-worker-success aria-live="polite"></p>
+                  <p class="form-error" data-worker-error aria-live="polite"></p>
+                  <button class="btn btn-primary btn-submit" type="submit">Crear trabajador</button>
+                </form>
+              </section>
+
+              <section class="content-card worker-list-card">
+                <div class="admin-section-heading">
+                  <h3>Equipo con acceso</h3>
+                  <span data-worker-count></span>
+                </div>
+                <div class="admin-worker-list" data-worker-list>
+                  <p class="empty-state">Cargando trabajadores...</p>
+                </div>
+              </section>
+            </div>
+          </section>
         </div>
       </div>
     </section>
   </main>
 
-  <script src="js/main.js"></script>
-  <script src="js/panel.js?v=20260513"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabase-client.js"></script>
+  <script src="js/main.js?v=20260916"></script>
+  <script src="js/panel.js?v=20260916"></script>
 </body>
 </html>

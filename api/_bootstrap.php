@@ -5,6 +5,8 @@ declare(strict_types=1);
 const ES_SESSION_COOKIE = 'eventosonic_session';
 const ES_SESSION_TTL_SEC = 8 * 3600;
 const ES_STATUS_VALUES = ['pendiente', 'aceptada', 'rechazada', 'contactada'];
+const ES_EVENT_MAX_IMAGES = 15;
+const ES_EVENT_MAX_FILE_BYTES = 8 * 1024 * 1024;
 
 function es_config(): array
 {
@@ -258,6 +260,179 @@ function es_public_request(array $row): array
         'createdAt' => $row['created_at'],
         'updatedAt' => $row['updated_at'],
     ];
+}
+
+function es_ensure_event_tables(PDO $pdo): void
+{
+    static $ready = false;
+    if ($ready) {
+        return;
+    }
+
+    $pdo->exec(
+        'CREATE TABLE IF NOT EXISTS events (
+          id INT NOT NULL AUTO_INCREMENT,
+          title VARCHAR(160) NOT NULL,
+          cover_image VARCHAR(255) NOT NULL,
+          created_by INT NULL,
+          created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+          updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+          PRIMARY KEY (id),
+          CONSTRAINT events_created_by_fk FOREIGN KEY (created_by) REFERENCES workers(id) ON DELETE SET NULL
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci'
+    );
+    $pdo->exec(
+        'CREATE TABLE IF NOT EXISTS event_images (
+          id INT NOT NULL AUTO_INCREMENT,
+          event_id INT NOT NULL,
+          image_path VARCHAR(255) NOT NULL,
+          sort_order INT NOT NULL DEFAULT 0,
+          created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+          PRIMARY KEY (id),
+          KEY event_images_event_order (event_id, sort_order, id),
+          CONSTRAINT event_images_event_fk FOREIGN KEY (event_id) REFERENCES events(id) ON DELETE CASCADE
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci'
+    );
+
+    $ready = true;
+}
+
+function es_list_events(PDO $pdo): array
+{
+    es_ensure_event_tables($pdo);
+    $events = $pdo->query(
+        'SELECT id, title, cover_image, created_at, updated_at
+         FROM events
+         ORDER BY created_at DESC, id DESC'
+    )->fetchAll();
+
+    if (!$events) {
+        return [];
+    }
+
+    $ids = array_map(static fn(array $event): int => (int) $event['id'], $events);
+    $placeholders = implode(',', array_fill(0, count($ids), '?'));
+    $stmt = $pdo->prepare(
+        'SELECT event_id, image_path
+         FROM event_images
+         WHERE event_id IN (' . $placeholders . ')
+         ORDER BY event_id, sort_order, id'
+    );
+    $stmt->execute($ids);
+
+    $galleryByEvent = [];
+    foreach ($stmt->fetchAll() as $image) {
+        $galleryByEvent[(int) $image['event_id']][] = '/' . ltrim((string) $image['image_path'], '/');
+    }
+
+    return array_map(static function (array $event) use ($galleryByEvent): array {
+        $id = (int) $event['id'];
+        $cover = '/' . ltrim((string) $event['cover_image'], '/');
+        return [
+            'id' => $id,
+            'title' => $event['title'],
+            'mainImage' => $cover,
+            'images' => array_merge([$cover], $galleryByEvent[$id] ?? []),
+            'createdAt' => $event['created_at'],
+            'updatedAt' => $event['updated_at'],
+        ];
+    }, $events);
+}
+
+function es_normalize_uploads(array $group): array
+{
+    if (!isset($group['name'])) {
+        return [];
+    }
+    if (!is_array($group['name'])) {
+        return [$group];
+    }
+
+    $files = [];
+    foreach ($group['name'] as $index => $name) {
+        $files[] = [
+            'name' => $name,
+            'type' => $group['type'][$index] ?? '',
+            'tmp_name' => $group['tmp_name'][$index] ?? '',
+            'error' => $group['error'][$index] ?? UPLOAD_ERR_NO_FILE,
+            'size' => $group['size'][$index] ?? 0,
+        ];
+    }
+    return $files;
+}
+
+function es_store_event_upload(array $file, string $directory, string $prefix): string
+{
+    $error = (int) ($file['error'] ?? UPLOAD_ERR_NO_FILE);
+    if ($error !== UPLOAD_ERR_OK) {
+        $messages = [
+            UPLOAD_ERR_INI_SIZE => 'Una imagen supera el tamaño permitido por el servidor.',
+            UPLOAD_ERR_FORM_SIZE => 'Una imagen supera el tamaño permitido.',
+            UPLOAD_ERR_PARTIAL => 'Una imagen no terminó de subirse. Inténtalo de nuevo.',
+            UPLOAD_ERR_NO_FILE => 'Falta una imagen obligatoria.',
+        ];
+        throw new RuntimeException($messages[$error] ?? 'No se pudo recibir una de las imágenes.');
+    }
+
+    $size = (int) ($file['size'] ?? 0);
+    if ($size < 1 || $size > ES_EVENT_MAX_FILE_BYTES) {
+        throw new RuntimeException('Cada imagen debe ocupar como máximo 8 MB.');
+    }
+
+    $temporaryPath = (string) ($file['tmp_name'] ?? '');
+    if ($temporaryPath === '' || !is_uploaded_file($temporaryPath)) {
+        throw new RuntimeException('La imagen recibida no es un archivo subido válido.');
+    }
+
+    $imageInfo = @getimagesize($temporaryPath);
+    $mime = is_array($imageInfo) ? (string) ($imageInfo['mime'] ?? '') : '';
+    $extensions = [
+        'image/jpeg' => 'jpg',
+        'image/png' => 'png',
+        'image/webp' => 'webp',
+    ];
+    if (!isset($extensions[$mime])) {
+        throw new RuntimeException('Solo se admiten imágenes JPG, PNG o WebP.');
+    }
+
+    $width = (int) ($imageInfo[0] ?? 0);
+    $height = (int) ($imageInfo[1] ?? 0);
+    if ($width < 1 || $height < 1 || $width > 12000 || $height > 12000 || ($width * $height) > 50000000) {
+        throw new RuntimeException('Una imagen tiene dimensiones no válidas o demasiado grandes.');
+    }
+
+    if (!is_dir($directory) && !mkdir($directory, 0755, true) && !is_dir($directory)) {
+        throw new RuntimeException('No se pudo preparar la carpeta de imágenes del evento.');
+    }
+
+    $filename = $prefix . '-' . bin2hex(random_bytes(12)) . '.' . $extensions[$mime];
+    $destination = $directory . DIRECTORY_SEPARATOR . $filename;
+    if (!move_uploaded_file($temporaryPath, $destination)) {
+        throw new RuntimeException('No se pudo guardar una de las imágenes.');
+    }
+
+    return 'uploads/events/' . basename($directory) . '/' . $filename;
+}
+
+function es_remove_event_directory(int $eventId): void
+{
+    if ($eventId < 1) {
+        return;
+    }
+    $directory = dirname(__DIR__) . '/uploads/events/' . $eventId;
+    if (!is_dir($directory)) {
+        return;
+    }
+    foreach (scandir($directory) ?: [] as $name) {
+        if ($name === '.' || $name === '..') {
+            continue;
+        }
+        $path = $directory . DIRECTORY_SEPARATOR . $name;
+        if (is_file($path)) {
+            @unlink($path);
+        }
+    }
+    @rmdir($directory);
 }
 
 function es_send_booking_email(array $request, int $id): bool
