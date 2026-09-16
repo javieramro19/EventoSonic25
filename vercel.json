@@ -3,7 +3,7 @@
   "cleanUrls": true,
   "trailingSlash": false,
   "rewrites": [
-    { "source": "/plan/:slug", "destination": "/plan-esencial.html?slug=:slug" }
+    { "source": "/plan/:slug", "destination": "/plan-esencial?slug=:slug" }
   ],
   "headers": [
     {
