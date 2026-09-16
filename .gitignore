@@ -4,6 +4,16 @@ data/*.sql-wal
 data/*.sql-shm
 data/secrets.php
 node_modules/
+.vercel-upload/
+.vercel-cli/
+.deploy-git/
+.vercel-env/
 *.zip
 .env
 .env.*
+Contraseña base de datos.txt
+uploads/events/*
+!uploads/events/.gitkeep
+
+.vercel
+.env*
