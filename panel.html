@@ -13,7 +13,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/styles.css?v=20260926">
 </head>
 <body data-page="panel">
   <header class="site-header plan-header">
@@ -55,7 +55,7 @@
         </section>
 
         <div class="admin-panel" data-panel-app hidden>
-          <section class="content-card admin-toolbar reveal">
+          <section class="content-card admin-toolbar reveal" id="admin-requests">
             <div>
               <p class="eyebrow">Solicitudes</p>
               <h2 data-worker-greeting>Panel privado</h2>
@@ -74,6 +74,13 @@
               <button class="btn btn-outline-dark" type="button" data-refresh>Actualizar</button>
             </div>
           </section>
+
+          <nav class="admin-jump-nav" aria-label="Apartados del panel">
+            <a href="#admin-requests">Solicitudes</a>
+            <a href="#admin-events">Eventos</a>
+            <a href="#admin-plans">Planes</a>
+            <a href="#admin-workers">Trabajadores</a>
+          </nav>
 
           <div class="admin-stats" data-stats></div>
 
@@ -100,7 +107,7 @@
             </section>
           </div>
 
-          <section class="admin-events-section reveal" aria-labelledby="admin-events-title">
+          <section class="admin-events-section reveal" id="admin-events" aria-labelledby="admin-events-title">
             <div class="admin-section-heading admin-events-heading">
               <div>
                 <p class="eyebrow">Galería pública</p>
@@ -151,7 +158,7 @@
             </div>
           </section>
 
-          <section class="admin-plans-section reveal" aria-labelledby="admin-plans-title">
+          <section class="admin-plans-section reveal" id="admin-plans" aria-labelledby="admin-plans-title">
             <div class="admin-section-heading admin-plans-heading">
               <div>
                 <p class="eyebrow">Oferta comercial</p>
@@ -247,7 +254,7 @@
             </div>
           </section>
 
-          <section class="admin-workers-section reveal" aria-labelledby="admin-workers-title">
+          <section class="admin-workers-section reveal" id="admin-workers" aria-labelledby="admin-workers-title">
             <div class="admin-section-heading admin-workers-heading">
               <div>
                 <p class="eyebrow">Accesos al panel</p>
@@ -299,7 +306,7 @@
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="js/supabase-client.js"></script>
-  <script src="js/main.js?v=20260916"></script>
-  <script src="js/panel.js?v=20260916"></script>
+  <script src="js/main.js?v=20260926"></script>
+  <script src="js/panel.js?v=20260926"></script>
 </body>
 </html>

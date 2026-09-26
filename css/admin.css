@@ -23,6 +23,46 @@
   gap: 1.35rem;
 }
 
+.admin-jump-nav {
+  position: sticky;
+  top: 0.75rem;
+  z-index: 5;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.55rem;
+  width: fit-content;
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 0.55rem;
+  border: 1px solid rgba(44, 44, 44, 0.08);
+  border-radius: 999px;
+  background: rgba(255, 250, 246, 0.94);
+  box-shadow: var(--shadow-soft);
+  backdrop-filter: blur(14px);
+}
+
+.admin-jump-nav a {
+  padding: 0.55rem 0.9rem;
+  border-radius: 999px;
+  color: var(--text);
+  font-weight: 800;
+  transition: color 0.2s ease, background 0.2s ease;
+}
+
+.admin-jump-nav a:hover,
+.admin-jump-nav a:focus-visible {
+  color: #fff;
+  background: var(--gold-deep);
+}
+
+#admin-requests,
+#admin-events,
+#admin-plans,
+#admin-workers {
+  scroll-margin-top: 6rem;
+}
+
 .admin-toolbar {
   align-items: center;
   display: flex;

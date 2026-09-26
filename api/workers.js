@@ -6,6 +6,10 @@ export default async function handler(request, response) {
     return response.status(405).json({ error: 'Método no permitido' });
   }
 
+  if (!hasPrivateSupabaseSettings()) {
+    return proxyPrimaryWorkers(request, response);
+  }
+
   try {
     const settings = getSettings();
     const caller = await requireAdmin(request, settings);
@@ -24,6 +28,34 @@ export default async function handler(request, response) {
     return response.status(status).json({
       error: status >= 500 ? 'No se pudo gestionar el equipo en este momento.' : error.message
     });
+  }
+}
+
+function hasPrivateSupabaseSettings() {
+  return Boolean(
+    process.env.SUPABASE_URL
+    && (process.env.SUPABASE_PUBLISHABLE_KEY || process.env.SUPABASE_ANON_KEY)
+    && (process.env.SUPABASE_SECRET_KEY || process.env.SUPABASE_SERVICE_ROLE_KEY)
+  );
+}
+
+async function proxyPrimaryWorkers(request, response) {
+  try {
+    const headers = { Accept: 'application/json' };
+    const authorization = String(request.headers.authorization || '');
+    if (authorization) headers.Authorization = authorization;
+    if (request.method === 'POST') headers['Content-Type'] = 'application/json';
+
+    const upstream = await fetch('https://eventosonic.vercel.app/api/workers', {
+      method: request.method,
+      headers,
+      body: request.method === 'POST' ? JSON.stringify(request.body || {}) : undefined
+    });
+    const payload = await upstream.json().catch(() => ({ error: 'Respuesta no válida del servicio principal.' }));
+    return response.status(upstream.status).json(payload);
+  } catch (error) {
+    console.error('EventoSonic workers proxy error', error);
+    return response.status(503).json({ error: 'No se pudo gestionar el equipo en este momento.' });
   }
 }
 

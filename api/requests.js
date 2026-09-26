@@ -8,6 +8,10 @@ export default async function handler(request, response) {
     return response.status(405).json({ error: "Método no permitido" });
   }
 
+  if (!hasPrivateSupabaseSettings()) {
+    return proxyPrimaryRequest(request, response);
+  }
+
   try {
     const booking = normalizeBooking(request.body || {});
     const created = await saveBooking(booking);
@@ -27,6 +31,31 @@ export default async function handler(request, response) {
     return response.status(status).json({
       error: status >= 500 ? "No se pudo guardar la solicitud en este momento." : error.message
     });
+  }
+}
+
+function hasPrivateSupabaseSettings() {
+  return Boolean(
+    process.env.SUPABASE_URL
+    && (process.env.SUPABASE_SECRET_KEY || process.env.SUPABASE_SERVICE_ROLE_KEY)
+  );
+}
+
+async function proxyPrimaryRequest(request, response) {
+  try {
+    const upstream = await fetch("https://eventosonic.vercel.app/api/requests", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(request.body || {})
+    });
+    const payload = await upstream.json().catch(() => ({ error: "Respuesta no válida del servicio principal." }));
+    return response.status(upstream.status).json(payload);
+  } catch (error) {
+    console.error("EventoSonic booking proxy error", error);
+    return response.status(503).json({ error: "No se pudo guardar la solicitud en este momento." });
   }
 }
 
