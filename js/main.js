@@ -347,6 +347,7 @@ function initCarousel() {
   if (!carousel) return;
 
   const track = carousel.querySelector(".carousel-track");
+  const viewport = carousel.querySelector(".carousel-viewport");
   const slides = Array.from(track.children);
   const dotsContainer = carousel.querySelector("[data-carousel-dots]");
   const prevButton = carousel.querySelector("[data-carousel-prev]");
@@ -379,13 +380,14 @@ function initCarousel() {
     const maxIndex = Math.max(slides.length - perView, 0);
     currentIndex = Math.min(currentIndex, maxIndex);
 
-    const slideWidth = 100 / perView;
+    const gap = Number.parseFloat(window.getComputedStyle(track).columnGap) || 0;
+    const viewportWidth = viewport?.clientWidth || carousel.clientWidth;
+    const slideWidthPx = Math.max((viewportWidth - gap * (perView - 1)) / perView, 0);
     slides.forEach((slide) => {
-      slide.style.flexBasis = `${slideWidth}%`;
+      slide.style.flexBasis = `${slideWidthPx}px`;
     });
 
-    const slideWidthPx = slides[0]?.getBoundingClientRect().width || 0;
-    track.style.transform = `translateX(-${currentIndex * slideWidthPx}px)`;
+    track.style.transform = `translateX(-${currentIndex * (slideWidthPx + gap)}px)`;
 
     const dots = dotsContainer.querySelectorAll(".carousel-dot");
     dots.forEach((dot, dotIndex) => {
