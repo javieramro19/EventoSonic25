@@ -460,7 +460,10 @@ async function initPlanPage() {
   const form = document.querySelector("[data-booking-form]");
   if (!planPage || !form) return;
 
-  const dynamicSlug = new URLSearchParams(window.location.search).get("slug");
+  const querySlug = new URLSearchParams(window.location.search).get("slug");
+  const pathMatch = window.location.pathname.match(/^\/plan\/([^/]+)\/?$/);
+  const pathSlug = pathMatch ? decodeURIComponent(pathMatch[1]) : "";
+  const dynamicSlug = querySlug || pathSlug;
   if (dynamicSlug) {
     try {
       const plan = await fetchPublishedPlan(dynamicSlug);
