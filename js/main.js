@@ -592,7 +592,7 @@ async function initPlanPage() {
       }
 
       if (errorMessage) {
-        errorMessage.textContent = "Ha ocurrido un error al enviar. Por favor, escríbenos directamente a eventosonic25@gmail.com o por WhatsApp al 647 808 298.";
+        errorMessage.textContent = "Ha ocurrido un error al enviar. Por favor, escríbenos directamente a eventosonic25@gmail.com o por WhatsApp al +34 677 07 10 44.";
       }
     } finally {
       if (submitButton) {
